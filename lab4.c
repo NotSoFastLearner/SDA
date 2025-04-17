@@ -232,40 +232,44 @@ void test_clear() {
 
     printf("clear() test passed!\n");
 }
+void test_printTree() {
+    printf("Testing printTree()... (please visually verify the output below)\n");
 
-int main() {
-    // Run tests first (in text mode)
-    printf("Running BST tests...\n\n");
-
-    test_newNode();
-    test_height();
-    test_find();
-    test_insert();
-    test_clear();
-
-    printf("\nAll tests passed successfully!\n");
-
-    // Now create a sample tree to visualize
+    // Build a small, known tree
     struct node *root = NULL;
-    int values[] = {50, 30, 70, 20, 40, 60, 80, 10, 25, 35, 45, 55, 65, 75, 85};
-    int num_values = sizeof(values) / sizeof(values[0]);
-
-    for (int i = 0; i < num_values; i++) {
-        root = insert(root, values[i]);
-    }
-
-    printf("\nCreated sample tree with %d nodes\n", num_values);
-    printf("Tree height: %d\n", height(root));
+    root = insert(root, 4);
+    root = insert(root, 2);
+    root = insert(root, 6);
+    root = insert(root, 1);
+    root = insert(root, 3);
+    root = insert(root, 5);
+    root = insert(root, 7);
 
     // Switch to Unicode mode for tree visualization
     _setmode(_fileno(stdout), _O_U16TEXT);
     setlocale(LC_ALL, "");
 
-    wprintf(L"\nTree visualization:\n");
+    wprintf(L"\nExpected tree structure (values 1-7):\n");
     printTree(root, 0);
+
+    // Reset to text mode if needed
+    _setmode(_fileno(stdout), _O_TEXT);
 
     // Clean up
     clear(&root);
+
+    printf("printTree() test completed (check output above).\n");
+}
+
+int main() {
+    printf("Running BST tests...\n\n");
+    test_newNode();
+    test_height();
+    test_find();
+    test_insert();
+    test_clear();
+    test_printTree();
+    printf("\nAll tests passed successfully!\n");
 
     return 0;
 }
